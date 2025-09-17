@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 添加自定义基础样式 */
+.tw-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+/* 避免与网站原有样式冲突 */
+#plasmo-shadow-container {
+    all: initial !important;
+}
+
+.table-handle-btn {
+    color: #116699;
+    font-size: 12px;
+}

@@ -1,0 +1,9 @@
+{
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["styles/tailwind.ts"],
+      "run_at": "document_idle"
+    }
+  ]
+}
