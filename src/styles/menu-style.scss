@@ -1,0 +1,42 @@
+.project-list {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 200px;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.95);
+  z-index: 9999;
+  overflow-y: auto;
+  padding: 10px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+
+  .project-item {
+    padding: 8px;
+    margin: 4px 0;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+
+    .project-link {
+      color: #333;
+      text-decoration: none;
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .project-item-active {
+    background-color: rgba(0, 0, 0, 0.05);
+
+    .project-link {
+      color: blue;
+      font-weight: bold;
+    }
+  }
+  .project-item:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    .project-link {
+      color: blue;
+    }
+  }
+}

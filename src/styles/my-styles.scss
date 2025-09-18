@@ -1,4 +1,7 @@
 body {
+  #wrapper {
+    padding-left: 200px;
+  }
   #top-menu {
     font-size: 14px;
     padding: 12px;
@@ -14,5 +17,42 @@ body {
   }
   #header {
     background-color: #fff;
+    padding: 10px 16px;
+    height: fit-content;
+
+    h1,
+    a {
+      color: black;
+    }
+  }
+
+  #main {
+    height: 500px;
+    // 自定义查询
+    #sidebar {
+      display: none;
+    }
+    #content {
+      .autoscroll {
+        #issues-tree {
+          thead {
+            tr {
+              th {
+                padding: 16px;
+                font-size: 14px;
+              }
+            }
+          }
+          tbody {
+            tr {
+              td {
+                padding: 6px 16px;
+                font-size: 14px;
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }
