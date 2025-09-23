@@ -75,3 +75,26 @@ body {
     }
   }
 }
+
+// 预览按钮
+table tbody tr .subject {
+  position: relative;
+}
+table tbody tr .subject .preview-button {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  color: black;
+  border-radius: 8px;
+  padding: 6px 12px;
+  background-color: #e6e6e6;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none; /* 防止透明时还能点到 */
+}
+table tbody tr:hover .subject .preview-button {
+  opacity: 1;
+  pointer-events: auto;
+}
