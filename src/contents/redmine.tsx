@@ -10,8 +10,6 @@ export const config: PlasmoCSConfig = {
 }
 
 const RedminePlugin = () => {
-  console.log("=============")
-
   return null
 }
 

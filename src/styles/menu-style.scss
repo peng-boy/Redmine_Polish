@@ -5,7 +5,7 @@
   width: 200px;
   height: calc(100vh - 32px);
   background-color: rgba(255, 255, 255, 0.95);
-  z-index: 9999;
+  z-index: 997;
   overflow-y: auto;
   // box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
@@ -69,21 +69,27 @@
       left: 0;
       bottom: 0;
       width: 3px;
-      background-color: blue;
+      background-color: #14679a;
     }
 
     .project-link {
-      color: blue;
+      color: #14679a;
       font-weight: bold;
     }
   }
   .project-item:hover {
     background-color: rgba(0, 0, 0, 0.05);
     .project-link {
-      color: blue;
+      color: #14679a;
     }
     .project-item-info {
       // display: block;
     }
+  }
+}
+
+#preview-content {
+  #project-list {
+    display: none;
   }
 }
