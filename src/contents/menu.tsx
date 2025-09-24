@@ -1,9 +1,13 @@
-// import redmineCss from "data-text:~/assets/redmine.css"
 import $ from "jquery"
-import type { PlasmoCSConfig } from "plasmo"
+import type {
+  PlasmoCSConfig,
+  PlasmoCSUIJSXContainer,
+  PlasmoCSUIProps,
+  PlasmoRender
+} from "plasmo"
 import { useEffect, useState } from "react"
-
-// import { MenuStyle } from "../styles/menu-style"
+import type { FC } from "react"
+import { createRoot } from "react-dom/client"
 
 import "src/styles/tailwind.css" // 引入tailwind
 
@@ -40,12 +44,37 @@ async function getData() {
 
 export const config: PlasmoCSConfig = {
   matches: ["*://*.yzrdm.cdleadus.com/*", "*://*.192.168.1.168/*"],
+  exclude_matches: [
+    "*://*.yzrdm.cdleadus.com/login*",
+    "*://*.192.168.1.168/login*"
+  ],
   css: ["../styles/menu-style.scss"],
   all_frames: true,
   run_at: "document_start"
 }
 
-const MenuRevamp = () => {
+export const getRootContainer = () =>
+  new Promise((resolve, rejects) => {
+    let timeout = 10000 // 10秒超时
+    const checkInterval = setInterval(() => {
+      const rootContainerParent = document.getElementById("wrapper")
+      if (rootContainerParent) {
+        clearInterval(checkInterval)
+        const rootContainer = document.createElement("div")
+        rootContainer.id = "project-list"
+        rootContainerParent.appendChild(rootContainer)
+        resolve(rootContainer)
+      } else {
+        timeout -= 100
+        if (timeout <= 0) {
+          clearInterval(checkInterval)
+          rejects("getRootContainer timeout")
+        }
+      }
+    }, 100)
+  })
+
+const MenuRevamp: FC<PlasmoCSUIProps> = () => {
   const [projects, setProjects] = useState<
     Array<{ name: string; url: string }>
   >([])
@@ -58,66 +87,40 @@ const MenuRevamp = () => {
     fetchProjects()
   }, [])
 
-  useEffect(() => {
-    if (projects.length === 0) return
+  /**点击项目跳转 */
+  function handleProjectClick(url: string) {
+    window.location.href = url
+  }
 
-    const wrapper = $("#wrapper")
-    const newDom = $("<div id='project-list'></div>")
+  return (
+    <>
+      <div className="project-list-title">研发管理系统</div>
+      {projects.map((project) => {
+        return (
+          <div
+            key={project.name}
+            className={
+              window.location.href.startsWith(project.url)
+                ? "project-item project-item-active"
+                : "project-item"
+            }
+            onClick={() => handleProjectClick(project.url)}>
+            <a className="project-link" href={project.url}>
+              {project.name}
+            </a>
+          </div>
+        )
+      })}
+    </>
+  )
+}
 
-    // 添加标题
-    const titleDiv = $("<div class='project-list-title'></div>").text(
-      "研发管理系统"
-    )
-    newDom.append(titleDiv)
-
-    // 获取当前页面的URL
-    const currentUrl = window.location.href.split("?")[0] // 移除查询参数
-
-    // 创建项目列表
-    projects.forEach((project) => {
-      // 移除项目URL中的查询参数进行比较
-      const projectUrl = project.url.split("?")[0]
-      // 修改匹配逻辑：当前URL包含项目URL时也认为是激活状态
-      const isActive = currentUrl.startsWith(projectUrl)
-
-      const projectItem = $("<div></div>")
-        .addClass("project-item")
-        .addClass(isActive ? "project-item-active" : "")
-
-      const projectLink = $("<a class='project-link'></a>")
-        .attr("href", project.url)
-        .text(project.name)
-
-      const projectInfo = $("<div class='project-item-info'></div>").text(
-        project.name
-      )
-
-      projectItem.append(projectLink)
-      projectItem.append(projectInfo)
-      newDom.append(projectItem)
-    })
-
-    wrapper.append(newDom)
-
-    // 清理函数
-    return () => {
-      wrapper.find("#project-list").remove()
-    }
-  }, [projects])
-
-  return null
-
-  // return (
-  //   <MenuStyle>
-  //     {projects.map((project) => {
-  //       return (
-  //         <div key={project.name} className="project-item">
-  //           <a href={project.url}>{project.name}</a>
-  //         </div>
-  //       )
-  //     })}
-  //   </MenuStyle>
-  // )
+export const render: PlasmoRender<PlasmoCSUIJSXContainer> = async ({
+  createRootContainer
+}) => {
+  const rootContainer = await createRootContainer()
+  const root = createRoot(rootContainer)
+  root.render(<MenuRevamp />)
 }
 
 export default MenuRevamp
