@@ -13,6 +13,8 @@ import { useEffect, useRef, useState } from "react"
 import type { FC } from "react"
 import { createRoot } from "react-dom/client"
 
+import { setupObserver } from "../utils"
+
 export const config: PlasmoCSConfig = {
   matches: ["*://*.yzrdm.cdleadus.com/*", "*://*.192.168.1.168/*"],
   css: ["../styles/preview-style.scss"],
@@ -103,6 +105,7 @@ const PreviewComponent: FC<PlasmoCSUIProps> = () => {
         setShowPreview(true)
       })
     })
+    setupObserver("#issues-tree tbody")
   }, [])
 
   useEffect(() => {

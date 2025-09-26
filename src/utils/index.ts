@@ -1,3 +1,5 @@
+import $ from "jquery"
+
 /**
  * 安全地将 HTML 字符串渲染到指定的 DOM 容器中，并执行其中的脚本。
  *
@@ -47,4 +49,60 @@ export function renderHtmlWithScripts(htmlString, container) {
       newScript.remove()
     }
   })
+}
+
+/**
+ * 查找并注入“预览”按钮到目标元素。
+ *
+ * @param {HTMLElement | JQuery} scope - 要搜索按钮的范围（如整个文档、新增的行或父容器）。
+ */
+function injectPreviewButton(scope) {
+  // 确保 scope 是一个 jQuery 对象
+  const $scope = $(scope)
+
+  // 目标选择器：表格行中的 .subject 单元格
+  // 假设你的目标是在所有表格行（tr）中查找 .subject 元素
+  const $targetCells = $scope.is(".subject") ? $scope : $scope.find(".subject")
+
+  $targetCells.each(function () {
+    const $subjectCell = $(this)
+
+    // 确保按钮不存在，避免重复插入
+    if ($subjectCell.find(".preview-button").length === 0) {
+      $subjectCell.append("<div class='preview-button'>预览</div>")
+    }
+  })
+}
+
+/**
+ * 启动 MutationObserver，监听表格或内容区域中新增的表格行。
+ * @param {string} targetSelector - 要监听的父容器的选择器，例如 '#content'
+ */
+export function setupObserver(targetSelector) {
+  const targetNode = document.querySelector(targetSelector)
+
+  if (!targetNode) {
+    console.warn(`[Observer] 目标节点未找到: ${targetSelector}`)
+    return
+  }
+
+  const config = { childList: true, subtree: true }
+
+  const callback = function (mutationsList, observer) {
+    for (const mutation of mutationsList) {
+      if (mutation.type === "childList" && mutation.addedNodes.length > 0) {
+        mutation.addedNodes.forEach((node) => {
+          // 仅处理元素节点
+          if (node.nodeType === 1) {
+            // 将新增的节点作为搜索范围，调用注入函数
+            injectPreviewButton(node)
+          }
+        })
+      }
+    }
+  }
+
+  const observer = new MutationObserver(callback)
+  observer.observe(targetNode, config)
+  // console.log("[Observer] 已启动，监听表格动态加载。")
 }
