@@ -4,9 +4,7 @@ import type {
   PlasmoCSConfig,
   PlasmoCSUIJSXContainer,
   PlasmoCSUIProps,
-  PlasmoGetOverlayAnchor,
   PlasmoGetStyle,
-  PlasmoMountShadowHost,
   PlasmoRender
 } from "plasmo"
 import { useEffect, useRef, useState } from "react"
@@ -63,6 +61,7 @@ const PreviewComponent: FC<PlasmoCSUIProps> = () => {
   const [title, setTitle] = useState<string>("") // 当前预览的主题标题
   const [issueData, setIssueData] = useState<any>(null)
   const previewContentRef = useRef<HTMLDivElement>(null)
+  const [readedIssues, setReadedIssues] = useState<Set<string>>(new Set())
   useEffect(() => {
     /**
      * 插入一个div.preview-button到table tbody tr .subject
@@ -124,6 +123,20 @@ const PreviewComponent: FC<PlasmoCSUIProps> = () => {
     }
   }
 
+  // 关闭预览并标记为已读
+  function markAsRead() {
+    if (ttId) {
+      setReadedIssues((prev) => new Set(prev).add(ttId))
+    }
+    setShowPreview(false)
+  }
+
+  useEffect(() => {
+    readedIssues.forEach((id) => {
+      $(`#issue-${id}`).addClass("issue-readed")
+    })
+  }, [readedIssues])
+
   return (
     <div id="preview" className={showPreview ? "preview-show" : ""}>
       <div className="header">
@@ -134,6 +147,9 @@ const PreviewComponent: FC<PlasmoCSUIProps> = () => {
             className="close-button"
             onClick={() => setShowPreview(false)}>
             关闭
+          </button>
+          <button className="close-button" onClick={markAsRead}>
+            关闭并已读
           </button>
         </div>
       </div>
