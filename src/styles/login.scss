@@ -10,6 +10,10 @@ body {
     #main {
       #content {
         background-color: transparent;
+        background: url("../assets/images/web-bg.webp");
+        background-size: cover; /* 或者其他你需要的属性 */
+        background-position: center;
+        background-repeat: no-repeat;
         #login-form {
           position: fixed;
           top: 50%;

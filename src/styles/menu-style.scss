@@ -24,6 +24,10 @@
     font-weight: bold;
   }
 
+  .project-container {
+    margin-bottom: 2px;
+  }
+
   .project-item {
     position: relative;
     cursor: pointer;
@@ -31,18 +35,54 @@
     border-radius: 4px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     padding: 8px 16px;
     transition: background-color 0.2s;
 
     .project-link {
       color: #333;
-      text-decoration: none;
-      display: block;
+      cursor: pointer;
       font-size: 14px;
+      flex: 1;
+      display: block;
       // white-space: nowrap;
       // overflow: hidden;
       // text-overflow: ellipsis;
       // width: 160px; // 留出一些边距空间
+    }
+
+    .project-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .project-main-link {
+      color: #666;
+      text-decoration: none;
+      font-size: 12px;
+      padding: 2px 4px;
+      border-radius: 3px;
+      transition: all 0.2s;
+
+      &:hover {
+        color: #14679a;
+        background-color: rgba(20, 103, 154, 0.1);
+      }
+    }
+
+    .submenu-toggle {
+      font-size: 10px;
+      color: #666;
+      transition: transform 0.2s;
+
+      &.expanded {
+        transform: rotate(90deg);
+      }
+
+      &:hover {
+        color: #14679a;
+      }
     }
 
     .project-item-info {
@@ -57,6 +97,49 @@
       font-size: 12px;
       background-color: rgba(0, 0, 0, 0.5);
       border-radius: 8px;
+    }
+  }
+
+  // 二级菜单样式
+  .submenu {
+    background-color: rgba(248, 249, 250, 0.95);
+    border-left: 3px solid #e9ecef;
+    margin-left: 16px;
+    border-radius: 0 4px 4px 0;
+
+    .submenu-item {
+      cursor: pointer;
+      min-height: 32px;
+      display: flex;
+      align-items: center;
+      padding: 6px 16px;
+      transition: background-color 0.2s;
+      border-radius: 4px;
+      margin: 2px 4px;
+
+      .submenu-link {
+        color: #555;
+        text-decoration: none;
+        font-size: 13px;
+        display: block;
+      }
+
+      &.submenu-item-active {
+        background-color: rgba(20, 103, 154, 0.1);
+
+        .submenu-link {
+          color: #14679a;
+          font-weight: 500;
+        }
+      }
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+
+        .submenu-link {
+          color: #14679a;
+        }
+      }
     }
   }
   .project-item-active {
@@ -82,9 +165,9 @@
     .project-link {
       color: #14679a;
     }
-    .project-item-info {
-      // display: block;
-    }
+    /* .project-item-info {
+      display: block;
+    } */
   }
 }
 
