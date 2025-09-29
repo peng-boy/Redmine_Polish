@@ -16,6 +16,10 @@ import { setupObserver } from "../utils"
 export const config: PlasmoCSConfig = {
   matches: ["*://*.yzrdm.cdleadus.com/*", "*://*.192.168.1.168/*"],
   css: ["../styles/preview-style.scss"],
+  exclude_matches: [
+    "*://*.yzrdm.cdleadus.com/my/page*",
+    "*://*.192.168.1.168/my/page*"
+  ],
   all_frames: true
 }
 
