@@ -14,11 +14,16 @@ import { createRoot } from "react-dom/client"
 import { setupObserver } from "../utils"
 
 export const config: PlasmoCSConfig = {
-  matches: ["*://*.yzrdm.cdleadus.com/*", "*://*.192.168.1.168/*"],
+  matches: [
+    "*://*.yzrdm.cdleadus.com/*",
+    "*://*.192.168.1.168/*",
+    "*://*.demo.redminecloud.net/*"
+  ],
   css: ["../styles/preview-style.scss"],
   exclude_matches: [
     "*://*.yzrdm.cdleadus.com/my/page*",
-    "*://*.192.168.1.168/my/page*"
+    "*://*.192.168.1.168/my/page*",
+    "*://*.demo.redminecloud.net/my/page*"
   ],
   all_frames: true
 }
@@ -52,7 +57,8 @@ export const getRootContainer = () =>
 
 async function getIssuesData(ttId: string): Promise<any> {
   // http://192.168.1.168/issues/342
-  const response = await fetch(`http://192.168.1.168/issues/${ttId}`)
+  const url = new URL(window.location.origin)
+  const response = await fetch(`${url}/issues/${ttId}`)
   if (!response.ok) {
     throw new Error("Network response was not ok")
   }

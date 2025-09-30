@@ -11,6 +11,43 @@ import { createRoot } from "react-dom/client"
 
 import "src/styles/tailwind.css" // 引入tailwind
 
+export const config: PlasmoCSConfig = {
+  matches: [
+    "*://*.yzrdm.cdleadus.com/*",
+    "*://*.192.168.1.168/*",
+    "*://*.demo.redminecloud.net/*"
+  ],
+  exclude_matches: [
+    "*://*.yzrdm.cdleadus.com/login*",
+    "*://*.192.168.1.168/login*",
+    "*://*.demo.redminecloud.net/login*"
+  ],
+  css: ["../styles/menu-style.scss"],
+  all_frames: true,
+  run_at: "document_start"
+}
+
+export const getRootContainer = () =>
+  new Promise((resolve, rejects) => {
+    let timeout = 10000 // 10秒超时
+    const checkInterval = setInterval(() => {
+      const rootContainerParent = document.getElementById("wrapper")
+      if (rootContainerParent) {
+        clearInterval(checkInterval)
+        const rootContainer = document.createElement("div")
+        rootContainer.id = "project-list"
+        rootContainerParent.appendChild(rootContainer)
+        resolve(rootContainer)
+      } else {
+        timeout -= 100
+        if (timeout <= 0) {
+          clearInterval(checkInterval)
+          rejects("getRootContainer timeout")
+        }
+      }
+    }, 100)
+  })
+
 // 定义项目类型，支持二级菜单
 interface SubMenuItem {
   title: string
@@ -29,7 +66,8 @@ async function getWikiArticles(projectUrl: string): Promise<SubMenuItem[]> {
     // projectUrl 应该是 http://192.168.1.168/projects/yz-share 的形式
     const urlParts = projectUrl.split("/")
     const projectId = urlParts[urlParts.length - 1]
-    const fullUrl = `http://192.168.1.168/projects/${projectId}/wiki/date_index`
+    const originalUrl = window.location.origin
+    const fullUrl = `${originalUrl}/projects/${projectId}/wiki/date_index`
 
     const response = await fetch(fullUrl)
     if (!response.ok) {
@@ -71,9 +109,10 @@ async function getWikiArticles(projectUrl: string): Promise<SubMenuItem[]> {
 }
 
 async function getData(): Promise<ProjectData[]> {
+  const originalUrl = window.location.origin
   try {
     // 定义要访问的 URL
-    const url = "http://192.168.1.168/projects"
+    const url = originalUrl + "/projects"
 
     // 使用 fetch API 发起 GET 请求
     const response = await fetch(url)
@@ -113,38 +152,6 @@ async function getData(): Promise<ProjectData[]> {
     return []
   }
 }
-
-export const config: PlasmoCSConfig = {
-  matches: ["*://*.yzrdm.cdleadus.com/*", "*://*.192.168.1.168/*"],
-  exclude_matches: [
-    "*://*.yzrdm.cdleadus.com/login*",
-    "*://*.192.168.1.168/login*"
-  ],
-  css: ["../styles/menu-style.scss"],
-  all_frames: true,
-  run_at: "document_start"
-}
-
-export const getRootContainer = () =>
-  new Promise((resolve, rejects) => {
-    let timeout = 10000 // 10秒超时
-    const checkInterval = setInterval(() => {
-      const rootContainerParent = document.getElementById("wrapper")
-      if (rootContainerParent) {
-        clearInterval(checkInterval)
-        const rootContainer = document.createElement("div")
-        rootContainer.id = "project-list"
-        rootContainerParent.appendChild(rootContainer)
-        resolve(rootContainer)
-      } else {
-        timeout -= 100
-        if (timeout <= 0) {
-          clearInterval(checkInterval)
-          rejects("getRootContainer timeout")
-        }
-      }
-    }, 100)
-  })
 
 const MenuRevamp: FC<PlasmoCSUIProps> = () => {
   const [projects, setProjects] = useState<ProjectData[]>([])

@@ -3,7 +3,11 @@ import type { PlasmoCSConfig } from "plasmo"
 import { useEffect } from "react"
 
 export const config: PlasmoCSConfig = {
-  matches: ["*://*.yzrdm.cdleadus.com/login*", "*://*.192.168.1.168/login*"],
+  matches: [
+    "*://*.yzrdm.cdleadus.com/login*",
+    "*://*.192.168.1.168/login*",
+    "*://*.demo.redminecloud.net/login*"
+  ],
   css: ["../styles/login.scss"],
   all_frames: true
 }
