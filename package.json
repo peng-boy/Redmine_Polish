@@ -35,6 +35,17 @@
     "host_permissions": [
       "https://*/*",
       "http://192.168.1.168/*"
+    ],
+    "web_accessible_resources": [
+      {
+        "matches": [
+          "http://*/*",
+          "https://*/*"
+        ],
+        "resources": [
+          "assets/images/login-bg.png"
+        ]
+      }
     ]
   }
 }

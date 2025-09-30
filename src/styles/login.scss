@@ -1,8 +1,6 @@
 body {
   #wrapper {
     padding: 0;
-    background: linear-gradient(270deg, #fff, hsl(var(--primary) / 17%));
-
     #top-menu,
     #header {
       display: none;
@@ -10,40 +8,41 @@ body {
     #main {
       #content {
         background-color: transparent;
-        background: url("../assets/images/web-bg.webp");
         background-size: cover; /* 或者其他你需要的属性 */
         background-position: center;
         background-repeat: no-repeat;
         #login-form {
+          display: none;
           position: fixed;
           top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
+          right: 20%;
+          transform: translate(0, -50%);
           margin: 0;
           font-size: 16px;
 
           width: 400px;
           height: 375px;
-          color: white;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          gap: 20px;
-          border-radius: 10px;
-          backdrop-filter: blur(5px);
-          background-color: rgba(37, 117, 252, 0.05);
-          box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 8px;
-          border: 2px rgba(255, 255, 255, 0.4) solid;
-          border-bottom: 2px rgba(40, 40, 40, 0.35) solid;
-          border-right: 2px rgba(40, 40, 40, 0.35) solid;
+          border: none;
+          background-color: white;
 
           form {
             font-size: 16px;
+            width: 80%;
+            a {
+              font-size: 14px;
+              color: #909399;
+            }
+            input {
+              height: 38px;
+              border: none;
+              background-color: #f2f3f5;
+            }
           }
 
           #login-submit {
             color: #fff;
-            border-radius: 100px;
+            margin-bottom: 10px;
+            border-radius: 0;
             background-color: #409eff;
           }
         }
@@ -51,16 +50,6 @@ body {
     }
     #footer {
       background-color: transparent;
-    }
-  }
-}
-
-html {
-  body {
-    input {
-      border-color: #dcdfe6;
-      height: 32px;
-      border-radius: 4px;
     }
   }
 }
