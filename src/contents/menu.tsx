@@ -69,7 +69,18 @@ async function getWikiArticles(projectUrl: string): Promise<SubMenuItem[]> {
     const originalUrl = window.location.origin
     const fullUrl = `${originalUrl}/projects/${projectId}/wiki/date_index`
 
-    const response = await fetch(fullUrl)
+    const response = await fetch(fullUrl, {
+      method: "GET",
+      headers: {
+        Accept:
+          "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
+        "Cache-Control": "no-cache",
+        Pragma: "no-cache"
+      },
+      credentials: "same-origin",
+      mode: "cors"
+    })
     if (!response.ok) {
       throw new Error("获取知识库文章失败，状态码: " + response.status)
     }

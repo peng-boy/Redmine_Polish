@@ -34,8 +34,10 @@
   "manifest": {
     "host_permissions": [
       "https://*/*",
+      "http://*/*",
       "http://192.168.1.168/*",
-      "https://demo.redminecloud.net/*"
+      "https://demo.redminecloud.net/*",
+      "https://yzrdm.cdleadus.com/*"
     ],
     "web_accessible_resources": [
       {
